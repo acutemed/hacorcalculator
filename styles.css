@@ -1,0 +1,164 @@
+body {
+  min-height: 95vh;
+  max-height: 95vh;
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  justify-content: space-between;
+  font-family: Arial, sans-serif;
+  font-weight: 100;
+}
+
+input[type="checkbox"]{
+  width: 30px; /*Desired width*/
+  height: 30px; /*Desired height*/
+}
+
+ table {
+      border-collapse: collapse;
+      width: 100%;
+    }
+
+    table, th, td {
+      border: 1px solid black;
+    }
+
+    th, td {
+      padding: 8px;
+      text-align: center;
+    }
+
+    th {
+      background-color: #f2f2f2;
+    }
+
+button {
+  background-color: #4caf50;
+  border: none;
+  color: white;
+  padding: 0.5rem;
+  text-align: center;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #3f8f42;
+}
+
+
+.main-form {
+  align-items: center;
+  background-color: rgb(250, 250, 250);
+ /* border-radius: 0.3rem;
+  box-shadow: 3px 3px 10px 2px rgba(0, 0, 0, 0.2); */
+  display: flex;
+  flex-flow: column;
+  height: 40rem;
+  padding: 1rem;
+  margin-top: 1rem;
+  padding-bottom: 5rem;
+}
+
+.form-title {
+  font-size: 1.3rem;
+  margin-bottom: 2rem;
+  text-transform: uppercase;
+  text-align: center;
+}
+
+.form-body {
+  align-items: center;
+  display: flex;
+  flex-flow: column;
+  height: 60rem;
+  justify-content: space-between;
+  width: 23rem;
+}
+
+.main-image {
+  width: 30rem;
+  margin-bottom: 1rem;
+}
+
+.form-item {
+  width: 100%;
+  display: flex;
+  margin: 0.1rem 2;
+  padding: 7px;
+
+}
+
+.form-input-label {
+  display: inline-block;
+  margin: 0 0.5rem;
+  text-align: right;
+  width: 10rem;
+}
+
+.main-result {
+ padding-bottom: 1rem;
+ margin-bottom: 1rem;
+}
+
+.form-select {
+  height: 1.5rem;
+  width: 10rem;
+}
+
+.form-controls {
+  display: flex;
+  flex-flow: row;
+  min-width: 70%;
+  justify-content: space-evenly;
+}
+
+.form-button {
+    text-transform: uppercase;
+  margin-top: 1rem;
+  width: 7rem;
+  font-weight: bold;
+  font-size: .9rem;
+}
+
+.form-warning {
+  color: rgb(225, 0, 0);
+  font-style: italic;
+  font-size: 0.9rem;
+  min-height: 2.75rem;
+  max-width: 80%;
+  padding: 0.5rem;
+  text-align: center;
+}
+
+.form-warning-active {
+  outline: 1px solid rgb(225, 0, 0);
+  border-radius: 0.3rem;
+}
+
+.form-result {
+    text-transform: uppercase;
+  border-radius: 0.5rem;
+  border: 1px solid gray;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 2rem;
+  min-width: 8rem;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.form-references {
+margin-right: 10rem;
+margin-left: 10rem;
+  justify-content: center;
+  align-items: center;
+font-size: .7rem;
+}
+
+footer {
+  margin-top: .5rem;
+  width: 100%;
+  text-align: center;
+}
