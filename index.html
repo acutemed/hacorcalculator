@@ -1,187 +1,374 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <meta name="description" content="Calculate HACOR score to predict noninvasive ventilation failure in hypoxemic patients." />
-  <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-  <title>Updated HACOR Score Calculator</title>
-  <link rel="stylesheet" href="styles.css" />
-</head>
-<body>
-<script src="index.js"></script>
-  <div class="main-form">
-    <!--<div class="form-title">Updated HACOR Score Calculator</div>-->
-    <img class="main-image" src="updated-hacor-score.png" alt="Updated HACOR Score Calculator">
-    <div class="form-body">
-      <!-- Heart Rate -->
-      <!-- Add user input boxes for SOFA score, Diagnosis of Pneumonia, Diagnosis of CPE, Pulmonary ARDS, Immunosuppression, and Septic Shock -->
-      <div class="form-item">
-        <label class="form-input-label" for="heartRate">Heart Rate:</label>
-        <select class="form-select" name="heart-rate-options" id="heartRate">
-          <option value="none" selected disabled hidden></option>
-          <option value="0">&le; 120 bpm</option>
-          <option value="1">&ge; 121 bpm</option>
-        </select>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="Updated HACOR Score Calculator to predict noninvasive ventilation failure in hypoxemic patients."
+    />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Modified HACOR Score Calculator</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="container">
+      <header class="header">
+        <h1 class="title">Modified HACOR Score Calculator</h1>
+        <p class="subtitle">
+          The updated/modified HACOR score has high predictive power for NIV
+          failure in patients with hypoxemic respiratory failure.
+        </p>
+      </header>
+
+      <main class="main-content">
+        <div class="calculator-card">
+          <h3 class="section-title">Add Data</h3>
+
+          <!-- Heart Rate -->
+          <div class="input-group">
+            <label for="heartRate" class="input-label">Heart Rate (bpm)</label>
+            <select id="heartRate" class="input-select">
+              <option value="" selected disabled>Select heart rate</option>
+              <option value="0">&lt; 100</option>
+              <option value="1">100 - 119</option>
+              <option value="2">120 - 139</option>
+              <option value="3">≥ 140</option>
+            </select>
+          </div>
+
+          <!-- pH -->
+          <div class="input-group">
+            <label for="pH" class="input-label">pH (Acidosis)</label>
+            <select id="pH" class="input-select">
+              <option value="" selected disabled>Select pH</option>
+              <option value="0">≥ 7.35</option>
+              <option value="2">7.30 - 7.34</option>
+              <option value="3">7.25 - 7.29</option>
+              <option value="4">7.20 - 7.24</option>
+              <option value="8">&lt; 7.20</option>
+            </select>
+          </div>
+
+          <!-- Glasgow Coma Scale -->
+          <div class="input-group">
+            <label for="glasgow" class="input-label">Glasgow Coma Scale</label>
+            <select id="glasgow" class="input-select">
+              <option value="" selected disabled>Select GCS</option>
+              <option value="0">15</option>
+              <option value="2">14</option>
+              <option value="4">13</option>
+              <option value="6">12</option>
+              <option value="11">≤ 11</option>
+            </select>
+          </div>
+
+          <!-- PaO2/FiO2 -->
+          <div class="input-group">
+            <label for="pao2Fio2" class="input-label"
+              >PaO<sub>2</sub>/FiO<sub>2</sub></label
+            >
+            <select id="pao2Fio2" class="input-select">
+              <option value="" selected disabled>Select PaO₂/FiO₂</option>
+              <option value="0">≥ 150</option>
+              <option value="1">101 - 149</option>
+              <option value="2">≤ 100</option>
+            </select>
+          </div>
+
+          <!-- Respiratory Rate -->
+          <div class="input-group">
+            <label for="rr" class="input-label"
+              >Respiratory Rate (breaths/min)</label
+            >
+            <select id="rr" class="input-select">
+              <option value="" selected disabled>Select RR</option>
+              <option value="0">&lt; 30</option>
+              <option value="1">30 - 34</option>
+              <option value="2">35 - 39</option>
+              <option value="3">≥ 40</option>
+            </select>
+          </div>
+
+          <div class="divider"></div>
+
+          <h2 class="section-title">Baseline Variables</h2>
+
+          <!-- SOFA Score -->
+          <div class="input-group">
+            <label for="sofa" class="input-label">
+              SOFA Score
+              <button type="button" class="btn-link" onclick="openSofaModal()">
+                Calculate SOFA
+              </button>
+            </label>
+            <input
+              type="number"
+              id="sofa"
+              class="input-number"
+              placeholder="0"
+              min="0"
+              max="24"
+            />
+          </div>
+
+          <!-- Diagnosis Checkboxes -->
+          <div class="checkbox-group">
+            <label class="checkbox-label">
+              <input type="checkbox" id="pneumonia" class="checkbox-input" />
+              <span>Diagnosis of Pneumonia</span>
+              <span class="points-badge">+2.5</span>
+            </label>
+
+            <label class="checkbox-label">
+              <input type="checkbox" id="cpe" class="checkbox-input" />
+              <span>Cardiogenic Pulmonary Edema</span>
+              <span class="points-badge negative">-4.0</span>
+            </label>
+
+            <label class="checkbox-label">
+              <input type="checkbox" id="ards" class="checkbox-input" />
+              <span>Pulmonary ARDS</span>
+              <span class="points-badge">+3.0</span>
+            </label>
+
+            <label class="checkbox-label">
+              <input
+                type="checkbox"
+                id="immunosuppression"
+                class="checkbox-input"
+              />
+              <span>Immunosuppression</span>
+              <span class="points-badge">+1.5</span>
+            </label>
+
+            <label class="checkbox-label">
+              <input type="checkbox" id="septicShock" class="checkbox-input" />
+              <span>Septic Shock</span>
+              <span class="points-badge">+2.5</span>
+            </label>
+          </div>
+
+          <!-- Buttons -->
+          <div class="button-group">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              onclick="handleClear()"
+            >
+              Clear All
+            </button>
+            <button
+              type="button"
+              class="btn btn-primary"
+              onclick="handleCalculate()"
+            >
+              Calculate Score
+            </button>
+          </div>
+
+          <!-- Result -->
+          <div class="result-section" id="resultSection" style="display: none">
+            <div class="result-card">
+              <div class="result-label">Updated HACOR Score</div>
+              <div class="result-value" id="hacorScore">0</div>
+              <div class="result-risk" id="riskLevel"></div>
+            </div>
+          </div>
+
+          <!-- Warning Message -->
+          <div
+            class="warning-message"
+            id="warningMessage"
+            style="display: none"
+          ></div>
+        </div>
+
+        <!-- Risk Table -->
+        <div class="risk-table-card">
+          <h2 class="section-title">Risk Stratification</h2>
+          <div class="table-responsive">
+            <table class="risk-table">
+              <thead>
+                <tr>
+                  <th>Score</th>
+                  <th>Risk Level</th>
+                  <th>NIV Failure Rate</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="risk-low">
+                  <td>≤ 7</td>
+                  <td>Low</td>
+                  <td>12.4%</td>
+                </tr>
+                <tr class="risk-moderate">
+                  <td>7.5 - 10.5</td>
+                  <td>Moderate</td>
+                  <td>38.2%</td>
+                </tr>
+                <tr class="risk-high">
+                  <td>11 - 14</td>
+                  <td>High</td>
+                  <td>67.1%</td>
+                </tr>
+                <tr class="risk-very-high">
+                  <td>&gt; 14</td>
+                  <td>Very High</td>
+                  <td>83.7%</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </main>
+
+      <footer class="footer">
+        <div class="reference">
+          <strong>Reference:</strong> Duan J, Chen L, Liu X, et al. An updated
+          HACOR score for predicting the failure of noninvasive ventilation: a
+          multicenter prospective observational study. <em>Crit Care</em>.
+          2022;26:196.
+          <a
+            href="https://doi.org/10.1186/s13054-022-04060-7"
+            target="_blank"
+            rel="noopener"
+            >doi:10.1186/s13054-022-04060-7</a
+          >
+        </div>
+        <div class="author-info">
+          <span
+            ><a href="https://www.linkedin.com/in/farhanpalathinkal/"
+              ><img
+                src="https://img.icons8.com/?size=20&id=13930&format=png&color=000000"
+            /></a>
+            <strong>Dr. Farhan Palathinkal</strong></span
+          >
+        </div>
+      </footer>
+    </div>
+
+    <!-- SOFA Score Modal -->
+    <div id="sofaModal" class="modal">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h2>SOFA Score Calculator</h2>
+          <button class="modal-close" onclick="closeSofaModal()">
+            &times;
+          </button>
+        </div>
+        <div class="modal-body">
+          <!-- Respiration -->
+          <div class="input-group">
+            <label for="sofaResp" class="input-label"
+              >Respiration - PaO<sub>2</sub>/FiO<sub>2</sub></label
+            >
+            <select id="sofaResp" class="input-select">
+              <option value="0">≥ 400</option>
+              <option value="1">&lt; 400</option>
+              <option value="2">&lt; 300</option>
+              <option value="3">&lt; 200 (with ventilatory support)</option>
+              <option value="4">&lt; 100 (with ventilatory support)</option>
+            </select>
+          </div>
+
+          <!-- Coagulation -->
+          <div class="input-group">
+            <label for="sofaCoag" class="input-label"
+              >Coagulation - Platelets (×10³/µL)</label
+            >
+            <select id="sofaCoag" class="input-select">
+              <option value="0">≥ 150</option>
+              <option value="1">&lt; 150</option>
+              <option value="2">&lt; 100</option>
+              <option value="3">&lt; 50</option>
+              <option value="4">&lt; 20</option>
+            </select>
+          </div>
+
+          <!-- Liver -->
+          <div class="input-group">
+            <label for="sofaLiver" class="input-label"
+              >Liver - Bilirubin (mg/dL)</label
+            >
+            <select id="sofaLiver" class="input-select">
+              <option value="0">&lt; 1.2</option>
+              <option value="1">1.2 - 1.9</option>
+              <option value="2">2.0 - 5.9</option>
+              <option value="3">6.0 - 11.9</option>
+              <option value="4">≥ 12.0</option>
+            </select>
+          </div>
+
+          <!-- Cardiovascular -->
+          <div class="input-group">
+            <label for="sofaCardio" class="input-label"
+              >Cardiovascular - MAP or Vasopressors</label
+            >
+            <select id="sofaCardio" class="input-select">
+              <option value="0">MAP ≥ 70 mmHg</option>
+              <option value="1">MAP &lt; 70 mmHg</option>
+              <option value="2">Dopamine ≤ 5 or dobutamine (any)</option>
+              <option value="3">
+                Dopamine &gt; 5 or epi ≤ 0.1 or norepi ≤ 0.1
+              </option>
+              <option value="4">
+                Dopamine &gt; 15 or epi &gt; 0.1 or norepi &gt; 0.1
+              </option>
+            </select>
+          </div>
+
+          <!-- CNS -->
+          <div class="input-group">
+            <label for="sofaCns" class="input-label"
+              >CNS - Glasgow Coma Scale</label
+            >
+            <select id="sofaCns" class="input-select">
+              <option value="0">15</option>
+              <option value="1">13 - 14</option>
+              <option value="2">10 - 12</option>
+              <option value="3">6 - 9</option>
+              <option value="4">&lt; 6</option>
+            </select>
+          </div>
+
+          <!-- Renal -->
+          <div class="input-group">
+            <label for="sofaRenal" class="input-label"
+              >Renal - Creatinine (mg/dL) or Urine Output</label
+            >
+            <select id="sofaRenal" class="input-select">
+              <option value="0">&lt; 1.2</option>
+              <option value="1">1.2 - 1.9</option>
+              <option value="2">2.0 - 3.4</option>
+              <option value="3">3.5 - 4.9 or UO &lt; 500 mL/day</option>
+              <option value="4">≥ 5.0 or UO &lt; 200 mL/day</option>
+            </select>
+          </div>
+
+          <div class="sofa-result">
+            <strong>SOFA Score:</strong> <span id="sofaResult">0</span>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-secondary"
+            onclick="closeSofaModal()"
+          >
+            Cancel
+          </button>
+          <button
+            type="button"
+            class="btn btn-primary"
+            onclick="applySofaScore()"
+          >
+            Apply Score
+          </button>
+        </div>
       </div>
+    </div>
 
-      <!-- pH -->
-      <!-- Add input boxes for SOFA score, Diagnosis of Pneumonia, Diagnosis of CPE, Pulmonary ARDS, Immunosuppression, and Septic Shock -->
-      <div class="form-item">
-        <label class="form-input-label" for="pH">pH:</label>
-        <select class="form-select" name="pH-options" id="pH">
-          <option value="none" selected disabled hidden></option>
-          <option value="0">&ge; 7.35</option>
-          <option value="2">7.30 - 7.34</option>
-          <option value="3">7.25 - 7.29</option>
-          <option value="4">&lt; 7.25</option>
-        </select>
-      </div>
-
-      <!-- Glasgow -->
-      <!-- Add input boxes for SOFA score, Diagnosis of Pneumonia, Diagnosis of CPE, Pulmonary ARDS, Immunosuppression, and Septic Shock -->
-      <div class="form-item">
-        <label class="form-input-label" for="glasgow">Glasgow Coma Scale:</label>
-        <select class="form-select" name="glasgow-options" id="glasgow">
-          <option value="none" selected disabled hidden></option>
-          <option value="0">15</option>
-          <option value="2">13 - 14</option>
-          <option value="5">11 - 12</option>
-          <option value="10">&le; 10</option>
-        </select>
-      </div>
-
-      <!-- PaO2/FiO2 -->
-      <!-- Add input boxes for SOFA score, Diagnosis of Pneumonia, Diagnosis of CPE, Pulmonary ARDS, Immunosuppression, and Septic Shock -->
-      <div class="form-item">
-        <label class="form-input-label" for="pao2Fio2">PaO<sub>2</sub>/FiO<sub>2</sub>:</label>
-        <select class="form-select" name="pao2Fio2-options" id="pao2Fio2">
-          <option value="none" selected disabled hidden></option>
-          <option value="0">&gt; 201</option>
-          <option value="2">176 - 200</option>
-          <option value="3">151 - 175</option>
-          <option value="4">126 - 150</option>
-          <option value="5">101 - 125</option>
-          <option value="6">&le; 100</option>
-        </select>
-      </div>
-
-      <!-- RR -->
-      <!-- Add input boxes for SOFA score, Diagnosis of Pneumonia, Diagnosis of CPE, Pulmonary ARDS, Immunosuppression, and Septic Shock -->
-      <div class="form-item">
-        <label class="form-input-label" for="rr">RR:</label>
-        <select class="form-select" name="rr-options" id="rr">
-          <option value="none" selected disabled hidden></option>
-          <option value="0">&le; 30</option>
-          <option value="2">31 - 35</option>
-          <option value="3">36 - 40</option>
-          <option value="4">41 - 45</option>
-          <option value="6">&ge; 46</option>
-        </select>
-      </div>
-
-      <!-- Add input boxes for SOFA score, Diagnosis of Pneumonia, Diagnosis of CPE, Pulmonary ARDS, Immunosuppression, and Septic Shock -->
-      <div class="form-item">
-        <label class="form-input-label" for="sofa">* SOFA Score:</label>
-        <input class="form-input" type="number" id="sofa" />
-      </div>
-
-      <div class="form-item">
-        <label class="form-input-label" for="pneumonia">Diagnosis of Pneumonia:</label>
-        <input class="form-input" type="checkbox" id="pneumonia" />
-      </div>
-
-      <div class="form-item">
-        <label class="form-input-label" for="cpe">Diagnosis of Cardiogenic Pulmonary Edema:</label>
-        <input class="form-input" type="checkbox" id="cpe" />
-      </div>
-
-      <div class="form-item">
-        <label class="form-input-label" for="ards">Pulmonary ARDS:</label>
-        <input class="form-input" type="checkbox" id="ards" />
-      </div>
-
-      <div class="form-item">
-        <label class="form-input-label" for="immunosuppression">Immunosuppression:</label>
-        <input class="form-input" type="checkbox" id="immunosuppression" />
-      </div>
-
-      <div class="form-item">
-        <label class="form-input-label" for="septicShock">Septic Shock:</label>
-        <input class="form-input" type="checkbox" id="septicShock" />
-      </div>
-
-      <!-- Clear/Calculate -->
-      <div class="form-controls">
-        <button class="form-button" type="button" onclick="handleClearSelections()">Clear</button>
-        <button class="form-button" type="button" onclick="handleCalculateHacorScore()">Calculate</button>
-        <br><br>
-      </div>
-
-
-<br>
-      <!-- Result -->
-
-      <div class="form-item ">
-        <label class="form-input-label" for="hacorScore"><b>HACOR Score:</b></label>
-        <div class="form-result" id="hacorScore"></div>
-      </div>
-
-</div>
-  </div>
-        <!-- Validation Errors/Warning -->
-      <div class="form-warning" id="formWarning"></div>
-
-<div>
-	  <table border=".5px">
-    <tr>
-      <th>Score</th>
-      <th>Risk</th>
-      <th>Rate of failure</th>
-    </tr>
-    <tr>
-      <td>&le; 7</td>
-      <td style="color: darkgreen;">Low</td>
-      <td>12.4%</td>
-    </tr>
-    <tr>
-      <td>7.5 - 10.5</td>
-      <td style="color: darkslategrey;">Moderate</td>
-      <td>38.2%</td>
-    </tr>
-    <tr>
-      <td>11 - 14</td>
-      <td style="color: darkred;">High</td>
-      <td>67.1%</td>
-    </tr>
-    <tr>
-      <td>&gt; 14</td>
-      <td style="color: darkorange;">Very High</td>
-      <td>83.7%</td>
-    </tr>
-  </table>
-</div>
-
-  <footer>
-
-   
-    <div class="form-references">
-    Reference: Duan, J., Chen, L., Liu, X. et al. An updated HACOR score for predicting the failure of noninvasive ventilation: a multicenter prospective observational study. Crit Care 26, 196 (2022). https://doi.org/10.1186/s13054-022-04060-7
-
- 
-  </div>
-<br>
-
-* <a href="https://www.mdcalc.com/calc/691/sequential-organ-failure-assessment-sofa-score" target="_blank">Click Here</a> to calculate SOFA score.
- <br>
-    <p><small>Dr. Farhan Palathinkal</small> 
-    	<br>
-      <small>CTCCM Resident, VPSL Department of Critical Care | 2023 |</small> 
-     
-         
-     
-    
-    </p>
-  </footer>
-</body>
+    <script src="index.js"></script>
+  </body>
 </html>
